@@ -1,0 +1,116 @@
+// Importación de la librería chai.js
+ var chai = require('chai'),
+    expect = chai.expect;
+
+// Variables de configuración de chai.js
+chai.config.includeStack = false;
+chai.config.showDiff = true;
+chai.config.truncateThreshold = 40;
+
+/**
+ * Funciones base
+ * 
+ * 1. describe(). Función es utilizada para agrupar casos de prueba. Permite anidamientos.
+ * 2. it(). Función utilizada para definir los casos de prueba mediante afirmaciones.
+ */
+
+/**
+ * it()
+ * 
+ * Función utilizada para realizar los casos de prueba.
+ * Puede estar fuera de un bloque describe() o dentro de uno de ellos.
+ * Siempre es recomendable que este dentro de un bloque describe()
+ */
+ 
+// it() fuera de un bloque describe(). Mala practica.
+it('Caso de prueba - it() fuera de un bloque describe(). Mala practica.', function() {
+  expect('hola').to.be.equal('hola');
+});
+
+/**
+ * Es recomendable utilizar la función it() dentro de un bloque describe(), para
+ * organizar nuestras pruebas en bloques descriptivos y hacerlas fácil
+ * de entender (Agrupación de características).
+ */
+
+// it() dentro de un bloque describe()
+describe('Bloque de Casos - it() dentro Bloque describe()', function() {
+  it('Caso de prueba', function() {
+    expect('hola').to.be.not.equal('hasta luego');
+  });
+});
+ 
+ /**
+ * Dentro de la función it() podemos utilizar bloques describe().
+ * Esto también es una mala practica.
+ */
+ 
+// Función it() con bloque describe() interno
+describe('Bloque de Casos de prueba - it() con bloque describe() interno. Mala practica.', function() {
+	it('Caso de prueba', function() {
+	  expect('hola').to.be.not.equal('hasta luego');
+	  
+	  // Aunque este bloque no se presenta en la salida en consola, las afirmaciones si son validadas.
+	  // Si se genera un error este es mostrado al usuario.
+	  describe('Bloque de Casos Interno al bloque it()', function() {
+	    expect('buenos días').to.be.equal('buenos días');
+	  });
+	});
+});
+
+ /**
+ * Podemos utilizar tantas afirmaciones como desemos dentro de la función it().
+ * Al tener varias afirmaciones dentro de la misma función it(), 
+ * si alguna falla el caso de prueba falla sin validar las siguientes afirmaciones.
+ */
+describe('Bloque de casos de prueba - Bloque describe() con varias afirmaciones en el mismo caso de prueba', function() {
+	it('Caso de Prueba 1 - Varias afirmaciones en la misma función it()', function() {
+	  // Está afirmación es verdadera.
+	  expect('hola').to.be.equal('hola');
+	  
+	  // Está afirmación genera un error y ocasiona que el caso de prueba falle. Las siguientes afirmaciones no se ejecutan.
+	  // Si dese ver el error debe comentar la siguiente línea.
+	  //expect('hola').to.be.equal('hasta luego');
+	  
+	  // Está afirmación no se ejecuta.
+	  expect('hola').to.be.not.equal('hasta luego');
+	});
+
+	it('Caso de Prueba 2 - Varias afirmaciones en la misma función it()', function() {
+	  expect('hola').to.be.equal('hola');
+	  expect('hola').to.be.not.equal('hasta luego');
+	});
+
+	it('Caso de Prueba 3 - Varias afirmaciones en la misma función it()', function() {
+	  expect('hola').to.be.equal('hola');
+	  expect('hola').to.be.not.equal('hasta luego');
+	});
+});
+
+ /** 
+  * describe()
+  * 
+  * Función utilizada para agrupar las pruebas. Permite anidamientos.
+  * Dentro de los bloques describe() podemos anidar otros bloques describe y/o colocar
+  * las afirmaciones de los casos de uso. Es recomendable que siempre las afirmaciones
+  * se encuentren dentro de un bloque describe.
+  */
+
+// Bloque de pruebas único
+describe('Bloque de Casos - Bloques describe() anidados', function() {
+  
+  // Bloque Anidado
+  describe('Bloque de Casos Anidado', function() {
+    expect('hola').to.be.equal('hola');
+  });
+  
+  // Bloque Anidado
+  describe('Bloque de Casos Anidado', function() {
+    // Bloque Anidado
+    describe('Bloque de Casos Anidado', function() {
+      expect('hola').to.be.equal('hola');
+      expect('hasta luego').to.be.equal('hasta luego');
+    });
+  });
+  
+});
